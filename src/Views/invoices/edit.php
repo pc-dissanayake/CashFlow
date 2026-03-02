@@ -341,18 +341,18 @@
                             </select>
                              <select name="status" class="form-select">
                                 <option value="draft" <?= ($invoice['status'] ?? '') === 'draft' ? 'selected' : '' ?>>Draft</option>
-                                <option value="sent">Sent</option>
+                                <option value="sent" <?= ($invoice['status'] ?? '') === 'sent' ? 'selected' : '' ?>>Sent</option>
                                 <?php if($docType === 'quotation'): ?>
-                                <option value="accepted">Accepted</option>
-                                <option value="rejected">Rejected</option>
+                                <option value="accepted" <?= ($invoice['status'] ?? '') === 'accepted' ? 'selected' : '' ?>>Accepted</option>
+                                <option value="rejected" <?= ($invoice['status'] ?? '') === 'rejected' ? 'selected' : '' ?>>Rejected</option>
                                 <?php else: ?>
-                                <option value="overdue">Overdue</option>
-                                <option value="unpaid">Unpaid</option>
-                                <option value="partially_paid">Partially Paid</option>
+                                <option value="overdue" <?= ($invoice['status'] ?? '') === 'overdue' ? 'selected' : '' ?>>Overdue</option>
+                                <option value="unpaid" <?= ($invoice['status'] ?? '') === 'unpaid' ? 'selected' : '' ?>>Unpaid</option>
+                                <option value="partially_paid" <?= ($invoice['status'] ?? '') === 'partially_paid' ? 'selected' : '' ?>>Partially Paid</option>
                                 <?php endif; ?>
-                                <option value="paid">Paid</option>
-                                <option value="cancelled">Cancelled</option>
-                                <option value="void">Void</option>
+                                <option value="paid" <?= ($invoice['status'] ?? '') === 'paid' ? 'selected' : '' ?>>Paid</option>
+                                <option value="cancelled" <?= ($invoice['status'] ?? '') === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
+                                <option value="void" <?= ($invoice['status'] ?? '') === 'void' ? 'selected' : '' ?>>Void</option>
 
                             </select>
 
