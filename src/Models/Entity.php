@@ -16,7 +16,7 @@ class Entity extends Model {
         $sql = "SELECT * FROM {$this->table} WHERE (user_id = ? OR user_id = 1)";  // Include system entities
         
         if ($basicModeOnly) {
-            $sql .= " AND show_in_basic_mode = 1";
+            $sql .= " AND show_in_basic_mode = TRUE";
         }
         
         $sql .= " ORDER BY name ASC";

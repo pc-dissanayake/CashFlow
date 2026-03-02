@@ -75,6 +75,12 @@ $router->addRoute('GET', '/register', ['Controllers\AuthController', 'registerFo
 $router->addRoute('POST', '/register', ['Controllers\AuthController', 'register']);
 $router->addRoute('GET', '/logout', ['Controllers\AuthController', 'logout']);
 
+// User routes
+$router->addRoute('GET', '/users', ['Controllers\UserController', 'index']);
+$router->addRoute('GET', '/users/:id/edit', ['Controllers\UserController', 'edit']);
+$router->addRoute('POST', '/users/:id', ['Controllers\UserController', 'update']);
+$router->addRoute('POST', '/users/:id/delete', ['Controllers\UserController', 'delete']);
+
 // Transaction routes
 $router->addRoute('GET', '/transactions', ['Controllers\TransactionController', 'index']);
 $router->addRoute('GET', '/transactions/create', ['Controllers\TransactionController', 'create']);
