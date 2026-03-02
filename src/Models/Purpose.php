@@ -16,7 +16,7 @@ class Purpose extends Model {
         $sql = "SELECT * FROM {$this->table} WHERE user_id = ?";
         
         if ($basicModeOnly) {
-            $sql .= " AND show_in_basic_mode = 1";
+            $sql .= " AND show_in_basic_mode = TRUE";
         }
         
         $sql .= " ORDER BY name ASC";
