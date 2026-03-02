@@ -298,6 +298,26 @@ function applyPlaceholders(string $text, array $inv): string {
     background: #fff;
 }
 
+/* Action buttons: make heights uniform */
+.action-buttons .btn,
+.action-buttons a,
+.action-buttons button,
+.action-buttons form .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    height: 44px;
+    min-height: 44px;
+    padding: 0 .9rem;
+    line-height: 1;
+}
+.action-buttons .btn i,
+.action-buttons a i,
+.action-buttons button i {
+    margin-right: 6px;
+}
+
 /* Mobile / small-screen improvements */
 .action-buttons { display:flex; gap:0.5rem; }
 .no-print .action-buttons { flex-wrap: wrap; }
