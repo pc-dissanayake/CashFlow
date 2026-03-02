@@ -313,9 +313,10 @@
                                 <?php else: ?>
                                 <option value="overdue">Overdue</option>
                                 <option value="unpaid">Unpaid</option>
-                                <option value="part">Overdue</option>
+                                <option value="partially_paid">Partially Paid</option>
                                 <?php endif; ?>
                                 <option value="cancelled">Cancelled</option>
+                                <option value="void">Cancelled</option>
 
                             </select>
 
