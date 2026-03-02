@@ -22,7 +22,7 @@ class Currency extends Model {
         $sql = "SELECT * FROM {$this->table}";
         
         if ($basicModeOnly) {
-            $sql .= " WHERE show_in_basic_mode = 1";
+            $sql .= " WHERE show_in_basic_mode = TRUE";
         }
         
         $sql .= " ORDER BY code ASC";
