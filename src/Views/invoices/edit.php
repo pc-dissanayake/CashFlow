@@ -34,7 +34,7 @@
                         }
                     </style>
 
-                    <!-- Programme & Document Header -->
+                    <!-- Programme, Session and Document Number (single row) -->
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label class="form-label"><i class="bi bi-collection"></i> Programme *</label>
@@ -47,20 +47,28 @@
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                            <div class="mt-2">
-                                <label class="form-label">Session Number</label>
-                                <input type="text" name="session_number" class="form-control" value="<?= htmlspecialchars($invoice['session_number'] ?? '') ?>" placeholder="e.g. 01">
-                            </div>
+                            <div class="form-text">Determines the invoice number prefix</div>
                         </div>
 
-                            <footer class="text-center py-3 bg-light border-top mt-4 small text-muted">
-                                &copy; <?= date('Y') ?> CashFlow System &mdash; All rights reserved.
-                            </footer>
-                        <div class="col-md-3">
-                            <label class="form-label"><?= $typeLabel ?> Number *</label>
-                            <input type="text" name="document_number" class="form-control" required
-                                   value="<?= htmlspecialchars($invoice['document_number']) ?>">
+                        <div class="col-md-2">
+                            <label class="form-label">Session Number</label>
+                            <input type="text" name="session_number" class="form-control" value="<?= htmlspecialchars($invoice['session_number'] ?? '') ?>" placeholder="e.g. 01">
                         </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label"><?= $typeLabel ?> Number *</label>
+                            <div class="input-group">
+                                <input type="text" name="document_number" id="docNumber" class="form-control" required
+                                       value="<?= htmlspecialchars($invoice['document_number']) ?>">
+                                <button type="button" class="btn btn-outline-secondary" id="refreshNumber" title="Refresh number">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+                            <div class="form-text" id="numberHint">Select a programme first</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
                         <div class="col-md-3">
                             <label class="form-label">Issue Date *</label>
                             <input type="date" name="issue_date" class="form-control" required
