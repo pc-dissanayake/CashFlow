@@ -65,7 +65,19 @@ $bgMap = [
     'modern-elegant' => '/img/templates/modern-elegant.jpg',
 ];
 $bgUrl = $bgMap[$bgTemplate] ?? '';
-$hasBackground = !empty($bgUrl);
+$bgUrlCss = '';
+if ($bgUrl) {
+    $docRoot = $_SERVER['DOCUMENT_ROOT'] ?? realpath(__DIR__ . '/../../..');
+    $filePath = rtrim($docRoot, '/') . $bgUrl;
+    if (file_exists($filePath)) {
+        $bgUrlCss = 'file://' . $filePath;
+    } else {
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $bgUrlCss = $scheme . '://' . $host . $bgUrl;
+    }
+}
+$hasBackground = !empty($bgUrlCss);
 
 // header background only for basic template
 $headerStyle = '';
@@ -89,7 +101,7 @@ function applyPlaceholders(string $text, array $inv): string {
 }
 
 ?>
-<div class="invoice-preview card shadow" id="invoicePreview" style="<?= $hasBackground ? 'background-image:url(' . htmlspecialchars($bgUrl) . ');background-size:cover;background-position:center;background-repeat:no-repeat;' : '' ?>">
+<div class="invoice-preview card shadow" id="invoicePreview" style="<?= $hasBackground ? 'background-image:url(' . htmlspecialchars($bgUrlCss) . ');background-size:cover;background-position:center;background-repeat:no-repeat;' : '' ?>">
     <div class="card-body p-4" style="<?= $hasBackground ? 'background:rgba(255,255,255,0.65);' : '' ?>">
 
         <!-- Header with gradient -->
