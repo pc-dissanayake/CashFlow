@@ -317,7 +317,7 @@
                                     <i class="bi bi-check-circle"></i> Mark as PAID
                                 </label>
                             </div>
-                        </div>
+                        
                         <div class="row mt-2">
                         <div class="col-12">
                             <div class="d-flex gap-2">
@@ -327,6 +327,7 @@
                                 <a href="/invoices" class="btn btn-secondary btn-lg">Cancel</a>
                             </div>
                         </div>
+                    </div>
                     </div>
                     </div>
 
