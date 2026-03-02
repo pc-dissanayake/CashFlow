@@ -6,12 +6,12 @@ $isPaid = $invoice['is_paid'] ?? false;
 <!-- Action Bar -->
 <div class="d-flex justify-content-between align-items-center mb-4 no-print">
     <div>
-        <a href="/invoices" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to List
-        </a>
+        
     </div>
     <div class="d-flex gap-2 action-buttons">
-        <a href="/invoices/<?= $invoice['id'] ?>/pdf" class="btn btn-danger" target="_blank">
+        <a href="/invoices" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a><a href="/invoices/<?= $invoice['id'] ?>/pdf" class="btn btn-danger" target="_blank">
             <i class="bi bi-file-earmark-pdf"></i> Export PDF
         </a>
         <a href="/invoices/<?= $invoice['id'] ?>/download-pdf" class="btn btn-dark">
