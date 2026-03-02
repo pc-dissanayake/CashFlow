@@ -308,8 +308,8 @@
                                 <option value="sent">Sent</option>
                                 <option value="paid">Paid</option>
                                 <?php if($docType === 'quotation'): ?>
-                                    <option value="accepted">Accepted</option>
-                                    <option value="rejected">Rejected</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="rejected">Rejected</option>
                                 <?php endif; ?>
                             </select>
 
