@@ -310,6 +310,7 @@
                                 <?php if($docType === 'quotation'): ?>
                                 <option value="accepted">Accepted</option>
                                 <option value="rejected">Rejected</option>
+                                <option value="rejected">Rejected</option>
                                 <?php endif; ?>
                             </select>
 
