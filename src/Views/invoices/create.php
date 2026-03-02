@@ -316,7 +316,7 @@
                                 <option value="partially_paid">Partially Paid</option>
                                 <?php endif; ?>
                                 <option value="cancelled">Cancelled</option>
-                                <option value="void">Cancelled</option>
+                                <option value="void">Void</option>
 
                             </select>
 
