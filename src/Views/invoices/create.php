@@ -306,7 +306,6 @@
                             <select name="status" class="form-select">
                                 <option value="draft">Draft</option>
                                 <option value="sent">Sent</option>
-                                <option value="paid">Paid</option>
                                 <?php if($docType === 'quotation'): ?>
                                 <option value="accepted">Accepted</option>
                                 <option value="rejected">Rejected</option>
@@ -315,6 +314,7 @@
                                 <option value="unpaid">Unpaid</option>
                                 <option value="partially_paid">Partially Paid</option>
                                 <?php endif; ?>
+                                <option value="paid">Paid</option>
                                 <option value="cancelled">Cancelled</option>
                                 <option value="void">Void</option>
 
