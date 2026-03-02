@@ -315,46 +315,55 @@ $hasBackground = !empty($bgUrl);
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const bgMap = {
-        'blue-cream-minimalist': '/img/templates/blue-cream-minimalist.png',
-        'blue-white-minimalist': '/img/templates/blue-white-minimalist.png',
-        'blue-modern-medical': '/img/templates/blue-modern-medical.png',
-        'blue-white-geometric': '/img/templates/blue-white-geometric.png',
-        'modern-elegant': '/img/templates/modern-elegant.jpg'
-    };
-    const preview = document.querySelector('.invoice-page');
-    const header = document.querySelector('.header');
-    function applyTemplate(name) {
-        if (!preview) return;
-        const url = bgMap[name] || '';
-        if (url) {
-            preview.style.backgroundImage = 'url(' + url + ')';
-            preview.style.backgroundSize = 'cover';
-            preview.style.backgroundPosition = 'center';
-            preview.style.backgroundRepeat = 'no-repeat';
-        } else {
-            preview.style.backgroundImage = '';
-        }
-        if (header) {
-            if (name === 'basic') {
-                header.style.background = 'linear-gradient(135deg, #0067a6, #0d9488, #0d9488, #0067a6, #0d9488)';
-                header.style.color = '#fff';
-            } else if (name !== 'none') {
-                header.style.background = 'none';
-                header.style.color = '#000';
+(function() {
+    function initBgSelectorPdf() {
+        const bgMap = {
+            'blue-cream-minimalist': '/img/templates/blue-cream-minimalist.png',
+            'blue-white-minimalist': '/img/templates/blue-white-minimalist.png',
+            'blue-modern-medical': '/img/templates/blue-modern-medical.png',
+            'blue-white-geometric': '/img/templates/blue-white-geometric.png',
+            'modern-elegant': '/img/templates/modern-elegant.jpg'
+        };
+        const preview = document.querySelector('.invoice-page');
+        const header = document.querySelector('.header');
+        function applyTemplate(name) {
+            if (!preview) return;
+            const url = bgMap[name] || '';
+            if (url) {
+                preview.style.backgroundImage = 'url(' + url + ')';
+                preview.style.backgroundSize = 'cover';
+                preview.style.backgroundPosition = 'center';
+                preview.style.backgroundRepeat = 'no-repeat';
             } else {
-                header.style.background = '';
-                header.style.color = '';
+                preview.style.backgroundImage = '';
+            }
+            if (header) {
+                if (name === 'basic') {
+                    header.style.background = 'linear-gradient(135deg, #0067a6, #0d9488, #0d9488, #0067a6, #0d9488)';
+                    header.style.color = '#fff';
+                } else if (name !== 'none') {
+                    header.style.background = 'none';
+                    header.style.color = '#000';
+                } else {
+                    header.style.background = '';
+                    header.style.color = '';
+                }
             }
         }
+        document.querySelectorAll('#bgTemplateSelectorPdf input[name="background_template_pdf"]').forEach(r => {
+            r.addEventListener('change', function() { applyTemplate(this.value); });
+            const card = r.closest('label') ? r.closest('label').querySelector('.bg-template-card') : null;
+            if (card) card.addEventListener('click', () => { r.checked = true; r.dispatchEvent(new Event('change')); });
+        });
+        const current = document.querySelector('#bgTemplateSelectorPdf input[name="background_template_pdf"]:checked');
+        if (current) applyTemplate(current.value);
     }
-    document.querySelectorAll('#bgTemplateSelectorPdf input[name="background_template_pdf"]').forEach(r => {
-        r.addEventListener('change', function() { applyTemplate(this.value); });
-    });
-    const current = document.querySelector('#bgTemplateSelectorPdf input[name="background_template_pdf"]:checked');
-    if (current) applyTemplate(current.value);
-});
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initBgSelectorPdf);
+    } else {
+        initBgSelectorPdf();
+    }
+})();
 </script>
 
 $headerStyle = '';
