@@ -312,6 +312,9 @@
                                 <option value="rejected">Rejected</option>
                                 <?php else: ?>
                                 <option value="overdue">Overdue</option>
+                                <option value="unpaid">Unpaid</option>
+                                <option value="overdue">Overdue</option>
+                                <option value="overdue">Overdue</option>
                                 <?php endif; ?>
                             </select>
 
