@@ -260,7 +260,7 @@ function applyPlaceholders(string $text, array $inv): string {
 
         <!-- Footer with UUID -->
         <div class="mt-4 pt-3 border-top text-center">
-            <small class="text-muted" style="font-family: monospace; font-size: 0.75rem;">Invoce No:
+            <small class="text-muted" style="font-family: monospace; font-size: 0.9rem;">Invoce No:
                 <?= htmlspecialchars($invoice['uuid']) ?>
             </small>
             <br>
