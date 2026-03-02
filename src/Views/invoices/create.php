@@ -307,6 +307,7 @@
                                 <option value="draft">Draft</option>
                                 <option value="sent">Sent</option>
                                 <option value="paid">Paid</option>
+                                <option value="overdue">Overdue</option>
                             </select>
 
                             <div class="form-check mt-3">
