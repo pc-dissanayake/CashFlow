@@ -339,6 +339,22 @@
                                 <option value="paid" <?= ($invoice['status'] ?? '') === 'paid' ? 'selected' : '' ?>>Paid</option>
                                 <option value="cancelled" <?= ($invoice['status'] ?? '') === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
                             </select>
+                             <select name="status" class="form-select">
+                                <option value="draft" <?= ($invoice['status'] ?? '') === 'draft' ? 'selected' : '' ?>>Draft</option>
+                                <option value="sent">Sent</option>
+                                <?php if($docType === 'quotation'): ?>
+                                <option value="accepted">Accepted</option>
+                                <option value="rejected">Rejected</option>
+                                <?php else: ?>
+                                <option value="overdue">Overdue</option>
+                                <option value="unpaid">Unpaid</option>
+                                <option value="partially_paid">Partially Paid</option>
+                                <?php endif; ?>
+                                <option value="paid">Paid</option>
+                                <option value="cancelled">Cancelled</option>
+                                <option value="void">Void</option>
+
+                            </select>
 
                             <div class="form-check mt-3">
                                 <input class="form-check-input" type="checkbox" name="is_paid" id="isPaid"
