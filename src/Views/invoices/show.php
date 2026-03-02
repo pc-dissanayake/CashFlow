@@ -10,7 +10,7 @@ $isPaid = $invoice['is_paid'] ?? false;
             <i class="bi bi-arrow-left"></i> Back to List
         </a>
     </div>
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 action-buttons">
         <a href="/invoices/<?= $invoice['id'] ?>/pdf" class="btn btn-danger" target="_blank">
             <i class="bi bi-file-earmark-pdf"></i> Export PDF
         </a>
@@ -284,5 +284,29 @@ function applyPlaceholders(string $text, array $inv): string {
     max-width: 800px;
     margin: 0 auto;
     background: #fff;
+}
+
+/* Mobile / small-screen improvements */
+.action-buttons { display:flex; gap:0.5rem; }
+.no-print .action-buttons { flex-wrap: wrap; }
+.no-print .action-buttons form,
+.no-print .action-buttons a,
+.no-print .action-buttons button { margin-bottom: 0.35rem; }
+
+@media (max-width: 576px) {
+    .invoice-preview { margin: 0 8px; }
+    .invoice-header { padding: 18px; }
+    .invoice-header h1 { font-size: 1.5rem; letter-spacing: 1px; }
+    .invoice-header .col-md-5, .invoice-header .col-md-7 { text-align: left; }
+    .invoice-header .col-md-7 img { max-height: 50px; }
+    .invoice-header .row > div { margin-bottom: 0.5rem; }
+    .paid-stamp { left: 5%; top: -5px; transform: rotate(-8deg); font-size: 2rem; }
+    .invoice-preview { padding-left: 6px; padding-right: 6px; }
+    .table th, .table td { font-size: 0.9rem; }
+}
+
+@media (max-width: 420px) {
+    .invoice-header h1 { font-size: 1.2rem; }
+    .invoice-preview { padding-left: 4px; padding-right: 4px; }
 }
 </style>
