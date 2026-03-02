@@ -273,7 +273,7 @@ function applyPlaceholders(string $text, array $inv): string {
 
 <div class="invoice-page" style="<?= $hasBackground ? 'background-image:url(' . htmlspecialchars($bgUrlCss) . ');background-size:cover;background-position:center;background-repeat:no-repeat;' : '' ?>">
     <?php if ($hasBackground): ?>
-    <div style="position:absolute;inset:0;background:rgba(255,255,255,0.6);z-index:0;"></div>
+    <div style="position:absolute;inset:0;background:#ffffff;z-index:0;"></div>
     <?php endif; ?>
     <!-- HEADER -->
     <div class="header" style="position:relative;z-index:1; <?= $headerStyle ?><?php if ($bgTemplate !== 'basic' && $bgTemplate !== 'none') { echo 'background: none; '; } ?> color: <?php if ($bgTemplate === 'basic') { echo '#fff'; } else { echo '#000'; } ?>;">
