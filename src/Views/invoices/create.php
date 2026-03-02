@@ -35,7 +35,7 @@
                         }
                     </style>
 
-                    <!-- Programme, Session and Document Number (single row) -->
+                    <!-- Programme & Document Header -->
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label class="form-label"><i class="bi bi-collection"></i> Programme *</label>
@@ -48,14 +48,10 @@
                                 <?php endforeach; ?>
                             </select>
                             <div class="form-text">Determines the invoice number prefix</div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <label class="form-label">Session Number</label>
-                            <input type="text" name="session_number" class="form-control" placeholder="e.g. 01">
-                        </div>
-
-                        <div class="col-md-6">
+                            <div class="mt-2">
+                                <label class="form-label">Session Number</label>
+                                <input type="text" name="session_number" class="form-control" placeholder="e.g. 01">
+                            </div>
                             <label class="form-label"><?= $typeLabel ?> Number *</label>
                             <div class="input-group">
                                 <input type="text" name="document_number" id="docNumber" class="form-control" required
