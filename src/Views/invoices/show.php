@@ -264,7 +264,7 @@ function applyPlaceholders(string $text, array $inv): string {
                 <?= htmlspecialchars($invoice['uuid']) ?>
             </small>
             <br>
-            <small class="text-muted" style="font-size: 0.7rem;">
+            <small class="text-muted" style="font-size: 0.4rem;">
                 This document is digitally generated and signed by <?= htmlspecialchars($invoice['company_name']) ?>.
                 Any unauthorized modification is prohibited.
             </small>

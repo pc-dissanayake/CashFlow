@@ -401,7 +401,7 @@ function applyPlaceholders(string $text, array $inv): string {
     <div class="doc-footer">
         <div class="uuid">Invoce No:<?= htmlspecialchars($invoice['uuid']) ?></div>
         <div class="legal">
-            <span style="font-size: 0.6rem;">This document is digitally generated and signed by <?= htmlspecialchars($invoice['company_name']) ?>.
+            <span style="font-size: 0.4rem;">This document is digitally generated and signed by <?= htmlspecialchars($invoice['company_name']) ?>.
             This is a read-only document. Any unauthorized modification is prohibited.</span>
         </div>
     </div>
