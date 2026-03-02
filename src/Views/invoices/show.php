@@ -102,7 +102,7 @@ function applyPlaceholders(string $text, array $inv): string {
 
 ?>
 <div class="invoice-preview card shadow" id="invoicePreview" style="<?= $hasBackground ? 'background-image:url(' . htmlspecialchars($bgUrlCss) . ');background-size:cover;background-position:center;background-repeat:no-repeat;' : '' ?>">
-    <div class="card-body p-4" style="<?= $hasBackground ? 'background:rgba(255,255,255,0.65);' : '' ?>">
+    <div class="card-body p-4" style="<?= $hasBackground ? 'background:#ffffff;' : '' ?>">
 
         <!-- Header with gradient -->
         <div class="invoice-header" style="<?= $headerStyle ?>border-radius: 8px 8px 0 0; padding: 30px; margin: -1.5rem -1.5rem 0 -1.5rem; color: <?php if ($bgTemplate === 'basic' ) { echo '#fff'; } else { echo '#000'; } ?>;">

@@ -320,7 +320,7 @@ function applyPlaceholders(string $text, array $inv): string {
     </div>
 
     <!-- BODY -->
-    <div class="body" style="position:relative;z-index:1;">
+    <div class="body" style="position:relative;z-index:1; <?= $hasBackground ? 'background:#ffffff;' : '' ?>">
         <!-- Invoice To -->
         <div class="invoice-to">
             <div class="label"><?= $typeLabel ?> TO:</div>
