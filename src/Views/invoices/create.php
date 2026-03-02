@@ -314,8 +314,9 @@
                                 <option value="overdue">Overdue</option>
                                 <option value="unpaid">Unpaid</option>
                                 <option value="overdue">Overdue</option>
-                                <option value="overdue">Overdue</option>
                                 <?php endif; ?>
+                                <option value="cancelled">Cancelled</option>
+
                             </select>
 
                             <div class="form-check mt-3">
