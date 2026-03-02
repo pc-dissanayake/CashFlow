@@ -336,12 +336,6 @@
                             <select name="status" class="form-select">
                                 <option value="draft" <?= ($invoice['status'] ?? '') === 'draft' ? 'selected' : '' ?>>Draft</option>
                                 <option value="sent" <?= ($invoice['status'] ?? '') === 'sent' ? 'selected' : '' ?>>Sent</option>
-                                <option value="paid" <?= ($invoice['status'] ?? '') === 'paid' ? 'selected' : '' ?>>Paid</option>
-                                <option value="cancelled" <?= ($invoice['status'] ?? '') === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
-                            </select>
-                             <select name="status" class="form-select">
-                                <option value="draft" <?= ($invoice['status'] ?? '') === 'draft' ? 'selected' : '' ?>>Draft</option>
-                                <option value="sent" <?= ($invoice['status'] ?? '') === 'sent' ? 'selected' : '' ?>>Sent</option>
                                 <?php if($docType === 'quotation'): ?>
                                 <option value="accepted" <?= ($invoice['status'] ?? '') === 'accepted' ? 'selected' : '' ?>>Accepted</option>
                                 <option value="rejected" <?= ($invoice['status'] ?? '') === 'rejected' ? 'selected' : '' ?>>Rejected</option>
