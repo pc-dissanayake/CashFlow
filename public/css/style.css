@@ -98,3 +98,91 @@ body {
     height: 300px;
     margin-bottom: 2rem;
 }
+
+/* ── Invoice & Quotation System Styles ────────────────── */
+
+/* Invoice preview card */
+.invoice-preview {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.invoice-preview .card-body {
+    padding: 1.5rem;
+}
+
+/* Invoice header gradient */
+.invoice-header {
+    border-radius: 8px 8px 0 0;
+}
+
+/* PAID stamp overlay */
+.paid-stamp div {
+    font-family: 'Arial Black', Arial, sans-serif;
+    user-select: none;
+}
+
+/* Items table in forms */
+#itemsTable textarea {
+    resize: vertical;
+    min-height: 50px;
+}
+
+#itemsTable .form-control {
+    font-size: 0.9rem;
+}
+
+/* Print styles */
+@media print {
+    .no-print,
+    .navbar,
+    .alert,
+    .btn-group,
+    footer {
+        display: none !important;
+    }
+
+    .invoice-preview {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+    }
+
+    body {
+        background: #fff !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .invoice-header {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .paid-stamp div {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* Status badges */
+.badge.bg-draft { background-color: #6c757d !important; }
+.badge.bg-sent { background-color: #ffc107 !important; color: #333; }
+.badge.bg-paid { background-color: #198754 !important; }
+.badge.bg-cancelled { background-color: #dc3545 !important; }
+
+/* Invoice form totals card */
+.card.bg-light .card-body hr {
+    margin: 0.5rem 0;
+}
+
+/* Company profile cards */
+.card.h-100 .card-body hr {
+    margin: 0.75rem 0;
+}

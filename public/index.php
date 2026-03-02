@@ -25,9 +25,9 @@ $dbConfig = require BASE_PATH . '/config/database.php';
 
 // Initialize database connection
 try {
-    $dsn = "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']};charset={$dbConfig['charset']}";
+    $dsn = "pgsql:host={$dbConfig['host']};dbname={$dbConfig['dbname']}";
     $pdo = new PDO($dsn, $dbConfig['username'], $dbConfig['password'], $dbConfig['options']);
-    \Models\Model::setDB($pdo); // <-- ADD THIS LINE
+    \Models\Model::setDB($pdo);
 } catch (PDOException $e) {
     // For production, log the error and show a user-friendly message
     error_log($e->getMessage());

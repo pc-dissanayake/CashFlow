@@ -7,7 +7,7 @@ class Model {
     protected static \PDO $db;
     protected string $table;
     protected array $fillable = [];
-    protected string $primaryKey = 'id';
+    protected string $primaryKey = "id";
     
     public static function setDB(\PDO $pdo): void {
         self::$db = $pdo;
@@ -27,11 +27,11 @@ class Model {
         $sql = "SELECT * FROM {$this->table}";
         
         if (!empty($conditions)) {
-            $sql .= " WHERE " . implode(' AND ', array_map(fn($key) => "$key = ?", array_keys($conditions)));
+            $sql .= " WHERE " . implode(" AND ", array_map(fn($key) => "$key = ?", array_keys($conditions)));
         }
         
         if (!empty($orderBy)) {
-            $sql .= " ORDER BY " . implode(', ', array_map(
+            $sql .= " ORDER BY " . implode(", ", array_map(
                 fn($key, $dir) => "$key $dir",
                 array_keys($orderBy),
                 $orderBy
@@ -39,7 +39,13 @@ class Model {
         }
         
         $stmt = $this->prepare($sql);
-        $stmt->execute(array_values($conditions));
+        
+        // Convert booleans to 1/0 for PostgreSQL compatibility
+        $params = array_map(function($value) {
+            return is_bool($value) ? ($value ? 1 : 0) : $value;
+        }, array_values($conditions));
+        
+        $stmt->execute($params);
         return $stmt->fetchAll();
     }
     
@@ -49,12 +55,18 @@ class Model {
         $sql = sprintf(
             "INSERT INTO %s (%s) VALUES (%s)",
             $this->table,
-            implode(', ', array_keys($fields)),
-            implode(', ', array_fill(0, count($fields), '?'))
+            implode(", ", array_keys($fields)),
+            implode(", ", array_fill(0, count($fields), "?"))
         );
         
         $stmt = $this->prepare($sql);
-        $stmt->execute(array_values($fields));
+        
+        // Convert booleans to 1/0 for PostgreSQL compatibility
+        $values = array_map(function($value) {
+            return is_bool($value) ? ($value ? 1 : 0) : $value;
+        }, array_values($fields));
+        
+        $stmt->execute($values);
         
         return (int)self::$db->lastInsertId();
     }
@@ -65,12 +77,18 @@ class Model {
         $sql = sprintf(
             "UPDATE %s SET %s WHERE %s = ?",
             $this->table,
-            implode(', ', array_map(fn($field) => "$field = ?", array_keys($fields))),
+            implode(", ", array_map(fn($field) => "$field = ?", array_keys($fields))),
             $this->primaryKey
         );
         
         $stmt = $this->prepare($sql);
-        return $stmt->execute([...array_values($fields), $id]);
+        
+        // Convert booleans to 1/0 for PostgreSQL compatibility
+        $values = array_map(function($value) {
+            return is_bool($value) ? ($value ? 1 : 0) : $value;
+        }, array_values($fields));
+        
+        return $stmt->execute([...$values, $id]);
     }
     
     public function delete(int $id): bool {

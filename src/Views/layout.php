@@ -27,6 +27,21 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/tasks">Task</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-receipt"></i> Invoicing
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/invoices">All Documents</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/invoices/create?type=invoice">New Invoice</a></li>
+                                <li><a class="dropdown-item" href="/invoices/create?type=quotation">New Quotation</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/company-profiles">Company Profiles</a></li>
+                                <li><a class="dropdown-item" href="/client-profiles">Client Profiles</a></li>
+                                <li><a class="dropdown-item" href="/programmes">Programmes</a></li>
+                            </ul>
+                        </li>
                         <?php if ($_SESSION['is_admin'] ?? false): ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">

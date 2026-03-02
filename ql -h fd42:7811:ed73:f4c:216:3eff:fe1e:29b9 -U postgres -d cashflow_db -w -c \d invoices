@@ -1,0 +1,44 @@
+                                             Table "public.invoices"
+       Column        |            Type             | Collation | Nullable |               Default                
+---------------------+-----------------------------+-----------+----------+--------------------------------------
+ id                  | integer                     |           | not null | nextval('invoices_id_seq'::regclass)
+ uuid                | character varying(64)       |           | not null | 
+ document_type       | character varying(20)       |           | not null | 'invoice'::character varying
+ document_number     | character varying(50)       |           | not null | 
+ company_profile_id  | integer                     |           | not null | 
+ client_profile_id   | integer                     |           | not null | 
+ project_title       | character varying(500)      |           |          | NULL::character varying
+ location            | character varying(500)      |           |          | NULL::character varying
+ requested_by        | character varying(255)      |           |          | NULL::character varying
+ client_email        | character varying(255)      |           |          | NULL::character varying
+ currency_code       | character varying(10)       |           | not null | 'LKR'::character varying
+ subtotal            | numeric(15,2)               |           | not null | 0.00
+ tax_label           | character varying(50)       |           |          | 'VAT'::character varying
+ tax_rate            | numeric(5,2)                |           |          | 0.00
+ tax_amount          | numeric(15,2)               |           |          | 0.00
+ total               | numeric(15,2)               |           | not null | 0.00
+ status              | character varying(20)       |           | not null | 'draft'::character varying
+ is_paid             | boolean                     |           |          | false
+ paid_date           | date                        |           |          | 
+ notes               | text                        |           |          | 
+ issue_date          | date                        |           | not null | 
+ due_date            | date                        |           |          | 
+ user_id             | integer                     |           | not null | 
+ created_at          | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+ updated_at          | timestamp without time zone |           |          | CURRENT_TIMESTAMP
+ programme_id        | integer                     |           |          | 
+ background_template | character varying(50)       |           |          | 'none'::character varying
+ session_number      | character varying(50)       |           |          | 
+Indexes:
+    "invoices_pkey" PRIMARY KEY, btree (id)
+    "idx_invoices_document_type" btree (document_type)
+    "idx_invoices_user_id" btree (user_id)
+    "idx_invoices_uuid" btree (uuid)
+    "invoices_uuid_key" UNIQUE CONSTRAINT, btree (uuid)
+Foreign-key constraints:
+    "invoices_client_profile_id_fkey" FOREIGN KEY (client_profile_id) REFERENCES client_profiles(id)
+    "invoices_company_profile_id_fkey" FOREIGN KEY (company_profile_id) REFERENCES company_profiles(id)
+    "invoices_programme_id_fkey" FOREIGN KEY (programme_id) REFERENCES programmes(id)
+Referenced by:
+    TABLE "invoice_items" CONSTRAINT "invoice_items_invoice_id_fkey" FOREIGN KEY (invoice_id) REFERENCES invoices(id) ON DELETE CASCADE
+

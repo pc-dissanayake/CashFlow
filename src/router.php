@@ -128,5 +128,46 @@ $router->addRoute('GET', '/tasks/:id', ['Controllers\TaskController', 'show']);
 $router->addRoute('POST', '/tasks/:id/success', ['Controllers\TaskController', 'markSuccessful']);
 $router->addRoute('POST', '/tasks/:id/fail', ['Controllers\TaskController', 'markFailed']);
 
+// ── Invoice & Quotation System ────────────────────────
+
+// Company Profile routes
+$router->addRoute('GET', '/company-profiles', ['Controllers\CompanyProfileController', 'index']);
+$router->addRoute('GET', '/company-profiles/create', ['Controllers\CompanyProfileController', 'create']);
+$router->addRoute('POST', '/company-profiles', ['Controllers\CompanyProfileController', 'store']);
+$router->addRoute('GET', '/company-profiles/:id/edit', ['Controllers\CompanyProfileController', 'edit']);
+$router->addRoute('POST', '/company-profiles/:id', ['Controllers\CompanyProfileController', 'update']);
+$router->addRoute('POST', '/company-profiles/:id/delete', ['Controllers\CompanyProfileController', 'delete']);
+
+// Client Profile routes
+$router->addRoute('GET', '/client-profiles', ['Controllers\ClientProfileController', 'index']);
+$router->addRoute('GET', '/client-profiles/create', ['Controllers\ClientProfileController', 'create']);
+$router->addRoute('POST', '/client-profiles', ['Controllers\ClientProfileController', 'store']);
+$router->addRoute('GET', '/client-profiles/:id/edit', ['Controllers\ClientProfileController', 'edit']);
+$router->addRoute('POST', '/client-profiles/:id', ['Controllers\ClientProfileController', 'update']);
+$router->addRoute('POST', '/client-profiles/:id/delete', ['Controllers\ClientProfileController', 'delete']);
+
+// Programme routes
+$router->addRoute('GET', '/programmes', ['Controllers\ProgrammeController', 'index']);
+$router->addRoute('GET', '/programmes/create', ['Controllers\ProgrammeController', 'create']);
+$router->addRoute('POST', '/programmes', ['Controllers\ProgrammeController', 'store']);
+$router->addRoute('GET', '/programmes/:id/edit', ['Controllers\ProgrammeController', 'edit']);
+$router->addRoute('POST', '/programmes/:id', ['Controllers\ProgrammeController', 'update']);
+$router->addRoute('POST', '/programmes/:id/delete', ['Controllers\ProgrammeController', 'delete']);
+
+// Invoice/Quotation routes
+$router->addRoute('GET', '/invoices/next-number', ['Controllers\InvoiceController', 'nextNumber']);
+$router->addRoute('GET', '/invoices', ['Controllers\InvoiceController', 'index']);
+$router->addRoute('GET', '/invoices/create', ['Controllers\InvoiceController', 'create']);
+$router->addRoute('POST', '/invoices', ['Controllers\InvoiceController', 'store']);
+$router->addRoute('GET', '/invoices/:id', ['Controllers\InvoiceController', 'show']);
+$router->addRoute('GET', '/invoices/:id/edit', ['Controllers\InvoiceController', 'edit']);
+$router->addRoute('POST', '/invoices/:id', ['Controllers\InvoiceController', 'update']);
+$router->addRoute('POST', '/invoices/:id/delete', ['Controllers\InvoiceController', 'delete']);
+$router->addRoute('POST', '/invoices/:id/toggle-paid', ['Controllers\InvoiceController', 'togglePaid']);
+$router->addRoute('GET', '/invoices/:id/pdf', ['Controllers\InvoiceController', 'pdf']);
+$router->addRoute('GET', '/invoices/:id/download-pdf', ['Controllers\InvoiceController', 'downloadPdf']);
+$router->addRoute('POST', '/invoices/:id/generate-invoice', ['Controllers\InvoiceController', 'generateInvoice']);
+$router->addRoute('POST', '/invoices/:id/duplicate', ['Controllers\InvoiceController', 'duplicate']);
+
 // Dispatch the request
 $router->dispatch();
