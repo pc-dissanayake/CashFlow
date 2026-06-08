@@ -1,5 +1,4 @@
 <?php $typeLabel = $invoice['document_type'] === 'quotation' ? 'Quotation' : 'Invoice'; ?>
-<?php $typeLabel = $docType === 'quotation' ? 'Quotation' : 'Invoice'; ?>
 
 <div class="row justify-content-center">
     <div class="col-md-10">
@@ -337,7 +336,7 @@
                             <select name="status" class="form-select">
                                 <option value="draft" <?= ($invoice['status'] ?? '') === 'draft' ? 'selected' : '' ?>>Draft</option>
                                 <option value="sent" <?= ($invoice['status'] ?? '') === 'sent' ? 'selected' : '' ?>>Sent</option>
-                                <?php if($docType === 'quotation'): ?>
+                                <?php if($invoice['document_type'] === 'quotation'): ?>
                                 <option value="accepted" <?= ($invoice['status'] ?? '') === 'accepted' ? 'selected' : '' ?>>Accepted</option>
                                 <option value="rejected" <?= ($invoice['status'] ?? '') === 'rejected' ? 'selected' : '' ?>>Rejected</option>
                                 <?php else: ?>

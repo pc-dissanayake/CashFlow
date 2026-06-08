@@ -50,10 +50,11 @@ $paidLockHours = \Models\Invoice::PAID_LOCK_HOURS;
                 </button>
             </form>
         <?php endif; ?>
-        <form method="POST" action="/invoices/<?= $invoice['id'] ?>/duplicate" class="d-inline">
+        <form method="POST" action="/invoices/<?= $invoice['id'] ?>/duplicate" class="d-inline"
+              onsubmit="return confirm('Generate the next programme invoice (next session, new draft)? Are you sure?')">
             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
             <button type="submit" class="btn btn-outline-info">
-                <i class="bi bi-copy"></i> Duplicate
+                <i class="bi bi-arrow-right-circle"></i> Generate Next Programme Invoice
             </button>
         </form>
         <form method="POST" action="/invoices/<?= $invoice['id'] ?>/delete" class="d-inline"

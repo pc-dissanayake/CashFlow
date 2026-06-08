@@ -124,14 +124,20 @@
                         </td>
                         <td>
                             <div class="d-flex gap-1">
-                                
-                                <a href="/invoices/<?= $inv['id'] ?>/edit" class="btn btn-sm btn-outline-secondary" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <form method="POST" action="/invoices/<?= $inv['id'] ?>/duplicate" class="d-inline">
+                                <?php if (!empty($inv['lock']['edit_locked'])): ?>
+                                    <span class="btn btn-sm btn-outline-secondary disabled" aria-disabled="true" title="Locked: paid invoice can't be edited after generation">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                <?php else: ?>
+                                    <a href="/invoices/<?= $inv['id'] ?>/edit" class="btn btn-sm btn-outline-secondary" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                <?php endif; ?>
+                                <form method="POST" action="/invoices/<?= $inv['id'] ?>/duplicate" class="d-inline"
+                                      onsubmit="return confirm('Generate the next programme invoice (next session, new draft)? Are you sure?')">
                                         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-                                        <button type="submit" class="btn btn-sm btn-outline-info" title="Duplicate">
-                                            <i class="bi bi-files"></i>
+                                        <button type="submit" class="btn btn-sm btn-outline-info" title="Generate Next Programme Invoice">
+                                            <i class="bi bi-arrow-right-circle"></i>
                                         </button>
                                 </form>
                                 <a href="/invoices/<?= $inv['id'] ?>" class="btn btn-sm btn-outline-primary" title="View">
