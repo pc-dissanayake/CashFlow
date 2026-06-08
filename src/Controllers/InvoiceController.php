@@ -151,6 +151,7 @@ class InvoiceController extends Controller {
 
         $this->render('invoices/show', [
             'invoice' => $invoice,
+            'lock' => $this->invoiceModel->lockFlags($id),
             'csrf_token' => $this->csrf()
         ]);
     }
@@ -189,6 +190,12 @@ class InvoiceController extends Controller {
         if (!$invoice || $invoice['user_id'] !== $_SESSION['user_id']) {
             $_SESSION['error'] = 'Document not found.';
             $this->redirect('/invoices');
+            return;
+        }
+
+        if ($this->invoiceModel->lockFlags($id)['edit_locked']) {
+            $_SESSION['error'] = 'This paid invoice is locked (more than ' . Invoice::EDIT_LOCK_HOURS . ' hours after generation) and can no longer be edited.';
+            $this->redirect('/invoices/' . $id);
             return;
         }
 
@@ -247,6 +254,12 @@ class InvoiceController extends Controller {
             return;
         }
 
+        if ($this->invoiceModel->lockFlags($id)['edit_locked']) {
+            $_SESSION['error'] = 'This paid invoice is locked (more than ' . Invoice::EDIT_LOCK_HOURS . ' hours after generation) and can no longer be deleted.';
+            $this->redirect('/invoices/' . $id);
+            return;
+        }
+
         $this->invoiceModel->delete($id);
         $_SESSION['success'] = 'Document deleted.';
         $this->redirect('/invoices');
@@ -265,6 +278,11 @@ class InvoiceController extends Controller {
         }
 
         if ($invoice['is_paid']) {
+            if ($this->invoiceModel->lockFlags($id)['paid_locked']) {
+                $_SESSION['error'] = 'This invoice was paid and locked (more than ' . Invoice::PAID_LOCK_HOURS . ' hours after generation); the PAID stamp can no longer be removed.';
+                $this->redirect('/invoices/' . $id);
+                return;
+            }
             $this->invoiceModel->markUnpaid($id);
             $_SESSION['success'] = 'Marked as unpaid.';
         } else {

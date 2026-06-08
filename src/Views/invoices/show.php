@@ -1,6 +1,10 @@
 <?php
 $typeLabel = $invoice['document_type'] === 'quotation' ? 'QUOTATION' : 'INVOICE';
 $isPaid = $invoice['is_paid'] ?? false;
+$editLocked = $lock['edit_locked'] ?? false;
+$paidLocked = $lock['paid_locked'] ?? false;
+$editLockHours = \Models\Invoice::EDIT_LOCK_HOURS;
+$paidLockHours = \Models\Invoice::PAID_LOCK_HOURS;
 ?>
 
 <!-- Action Bar -->
@@ -22,14 +26,22 @@ $isPaid = $invoice['is_paid'] ?? false;
         </button>
         <form method="POST" action="/invoices/<?= $invoice['id'] ?>/toggle-paid" class="d-inline">
             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-            <button type="submit" class="btn <?= $isPaid ? 'btn-warning' : 'btn-success' ?>">
-                <i class="bi bi-<?= $isPaid ? 'x-circle' : 'check-circle' ?>"></i>
+            <button type="submit" class="btn <?= $isPaid ? 'btn-warning' : 'btn-success' ?>"
+                    <?= $paidLocked ? 'disabled aria-disabled="true" title="Locked: the PAID stamp is permanent ' . $paidLockHours . 'h after generation"' : '' ?>>
+                <i class="bi bi-<?= $paidLocked ? 'lock' : ($isPaid ? 'x-circle' : 'check-circle') ?>"></i>
                 <?= $isPaid ? 'Remove PAID Stamp' : 'Stamp as PAID' ?>
             </button>
         </form>
-        <a href="/invoices/<?= $invoice['id'] ?>/edit" class="btn btn-outline-primary">
-            <i class="bi bi-pencil"></i> Edit
-        </a>
+        <?php if ($editLocked): ?>
+            <span class="btn btn-outline-primary disabled" aria-disabled="true"
+                  title="Locked: a paid invoice can't be edited <?= $editLockHours ?>h after generation">
+                <i class="bi bi-lock"></i> Edit
+            </span>
+        <?php else: ?>
+            <a href="/invoices/<?= $invoice['id'] ?>/edit" class="btn btn-outline-primary">
+                <i class="bi bi-pencil"></i> Edit
+            </a>
+        <?php endif; ?>
         <?php if ($invoice['document_type'] === 'quotation'): ?>
             <form method="POST" action="/invoices/<?= $invoice['id'] ?>/generate-invoice" class="d-inline">
                 <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
@@ -47,12 +59,27 @@ $isPaid = $invoice['is_paid'] ?? false;
         <form method="POST" action="/invoices/<?= $invoice['id'] ?>/delete" class="d-inline"
               onsubmit="return confirm('Are you sure you want to delete this document?')">
             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-            <button type="submit" class="btn btn-outline-danger">
-                <i class="bi bi-trash"></i> Delete
+            <button type="submit" class="btn btn-outline-danger"
+                    <?= $editLocked ? 'disabled aria-disabled="true" title="Locked: a paid invoice can\'t be deleted ' . $editLockHours . 'h after generation"' : '' ?>>
+                <i class="bi bi-<?= $editLocked ? 'lock' : 'trash' ?>"></i> Delete
             </button>
         </form>
     </div>
 </div>
+
+<!-- Lock notice -->
+<?php if ($editLocked): ?>
+    <div class="alert alert-secondary no-print d-flex align-items-center gap-2">
+        <i class="bi bi-lock-fill"></i>
+        <span>
+            <?php if ($paidLocked): ?>
+                This paid invoice is fully locked &mdash; editing, deletion and removing the PAID stamp are disabled (locked <?= $paidLockHours ?>h after generation).
+            <?php else: ?>
+                This paid invoice is locked for editing and deletion (locked <?= $editLockHours ?>h after generation). The PAID stamp can still be removed until <?= $paidLockHours ?>h after generation.
+            <?php endif; ?>
+        </span>
+    </div>
+<?php endif; ?>
 
 <!-- Invoice Preview -->
 <?php

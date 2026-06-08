@@ -5,6 +5,12 @@ namespace Models;
 
 class Invoice extends Model {
     protected string $table = 'invoices';
+
+    /** Hours after generation when a PAID invoice locks editing/deletion. */
+    public const EDIT_LOCK_HOURS = 24;
+    /** Hours after generation when the PAID stamp itself can no longer be removed. */
+    public const PAID_LOCK_HOURS = 36;
+
     protected array $fillable = [
         'uuid', 'document_type', 'document_number',
         'company_profile_id', 'client_profile_id', 'programme_id',
@@ -134,6 +140,38 @@ class Invoice extends Model {
             bin2hex(random_bytes(2)),
             bin2hex(random_bytes(6))
         );
+    }
+
+    /**
+     * Compute time-based lock flags for an invoice.
+     *
+     * A PAID invoice locks editing and deletion EDIT_LOCK_HOURS after it was
+     * generated, and its PAID stamp becomes permanent PAID_LOCK_HOURS after
+     * generation. Unpaid invoices are never locked. Age is measured DB-side
+     * (NOW() vs created_at) to avoid PHP/Postgres timezone skew.
+     *
+     * @return array{edit_locked: bool, paid_locked: bool, age_hours: float}
+     */
+    public function lockFlags(int $id): array {
+        $stmt = $this->prepare(
+            "SELECT is_paid, EXTRACT(EPOCH FROM (NOW() - created_at)) / 3600 AS age_hours
+             FROM {$this->table} WHERE id = ?"
+        );
+        $stmt->execute([$id]);
+        $row = $stmt->fetch();
+
+        if (!$row) {
+            return ['edit_locked' => false, 'paid_locked' => false, 'age_hours' => 0.0];
+        }
+
+        $paid  = (bool)$row['is_paid'];
+        $hours = (float)$row['age_hours'];
+
+        return [
+            'edit_locked' => $paid && $hours >= self::EDIT_LOCK_HOURS,
+            'paid_locked' => $paid && $hours >= self::PAID_LOCK_HOURS,
+            'age_hours'   => $hours,
+        ];
     }
 
     public function markPaid(int $id): bool {
