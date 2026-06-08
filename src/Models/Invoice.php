@@ -33,7 +33,8 @@ class Invoice extends Model {
      */
     public function findByUser(int $userId, ?string $documentType = null, ?int $programmeId = null, ?string $startDate = null, ?string $endDate = null): array {
         $sql = "SELECT i.*, cp.name as company_name, cl.company_name as client_name,
-                    pr.name as programme_name, pr.prefix as programme_prefix
+                    pr.name as programme_name, pr.prefix as programme_prefix,
+                    EXTRACT(EPOCH FROM (NOW() - i.created_at)) / 3600 AS age_hours
                 FROM {$this->table} i
                 JOIN company_profiles cp ON i.company_profile_id = cp.id
                 JOIN client_profiles cl ON i.client_profile_id = cl.id
@@ -158,14 +159,18 @@ class Invoice extends Model {
              FROM {$this->table} WHERE id = ?"
         );
         $stmt->execute([$id]);
-        $row = $stmt->fetch();
+        return $this->lockFlagsFor($stmt->fetch() ?: []);
+    }
 
-        if (!$row) {
-            return ['edit_locked' => false, 'paid_locked' => false, 'age_hours' => 0.0];
-        }
-
-        $paid  = (bool)$row['is_paid'];
-        $hours = (float)$row['age_hours'];
+    /**
+     * Derive lock flags from a row that already carries `is_paid` and `age_hours`
+     * (e.g. one returned by findByUser). Avoids a per-row query when locking a list.
+     *
+     * @return array{edit_locked: bool, paid_locked: bool, age_hours: float}
+     */
+    public function lockFlagsFor(array $row): array {
+        $paid  = (bool)($row['is_paid'] ?? false);
+        $hours = (float)($row['age_hours'] ?? 0);
 
         return [
             'edit_locked' => $paid && $hours >= self::EDIT_LOCK_HOURS,

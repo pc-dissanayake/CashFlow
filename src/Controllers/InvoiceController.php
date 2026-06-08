@@ -31,6 +31,10 @@ class InvoiceController extends Controller {
         $type = $_GET['type'] ?? null; // 'invoice' or 'quotation'
 
         $invoices = $this->invoiceModel->findByUser($userId, $type);
+        foreach ($invoices as &$inv) {
+            $inv['lock'] = $this->invoiceModel->lockFlagsFor($inv);
+        }
+        unset($inv);
 
         $this->render('invoices/index', [
             'invoices' => $invoices,
@@ -165,6 +169,12 @@ class InvoiceController extends Controller {
         if (!$invoice || $invoice['user_id'] !== $userId) {
             $_SESSION['error'] = 'Document not found.';
             $this->redirect('/invoices');
+            return;
+        }
+
+        if ($this->invoiceModel->lockFlags($id)['edit_locked']) {
+            $_SESSION['error'] = 'This paid invoice is locked (more than ' . Invoice::EDIT_LOCK_HOURS . ' hours after generation) and can no longer be edited.';
+            $this->redirect('/invoices/' . $id);
             return;
         }
 
@@ -449,7 +459,9 @@ class InvoiceController extends Controller {
         $this->redirect('/invoices/' . $newId . '/edit');
     }
 
-    // ── DUPLICATE ──────────────────────────────────────────
+    // ── GENERATE NEXT PROGRAMME INVOICE ────────────────────
+    // (route: /invoices/:id/duplicate) Clones the document into a fresh draft
+    // with the next document number AND the next session number.
     public function duplicate(int $id): void {
         $this->requireAuth();
         $this->validateCsrf();
@@ -489,8 +501,7 @@ class InvoiceController extends Controller {
             'is_paid' => false,
             'notes' => $invoice['notes'],
             'background_template' => $invoice['background_template'] ?? 'none',
-            'session_number' => trim($_POST['session_number'] ?? ''),
-            'session_number' => $invoice['session_number'] ?? '',
+            'session_number' => $this->nextSessionNumber($invoice['session_number'] ?? ''),
             'issue_date' => date('Y-m-d'),
             'user_id' => $userId,
         ];
@@ -502,8 +513,22 @@ class InvoiceController extends Controller {
             $this->itemModel->createBulk($newId, $invoice['items']);
         }
 
-        $_SESSION['success'] = 'Document duplicated.';
+        $_SESSION['success'] = 'Next programme invoice generated.';
         $this->redirect('/invoices/' . $newId . '/edit');
+    }
+
+    /**
+     * Increment the trailing number of a session label, preserving zero-padding.
+     * "06" -> "07", "Session 9" -> "Session 10", "" / non-numeric -> unchanged.
+     */
+    private function nextSessionNumber(?string $current): string {
+        $current = trim((string)$current);
+        if ($current === '' || !preg_match('/^(.*?)(\d+)(\D*)$/', $current, $m)) {
+            return $current;
+        }
+        $width = strlen($m[2]);
+        $next  = (string)((int)$m[2] + 1);
+        return $m[1] . str_pad($next, $width, '0', STR_PAD_LEFT) . $m[3];
     }
 
     // ── AJAX: Get next document number ───────────────────
